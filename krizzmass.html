@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Merry Krizmass 🎁</title>
+
+<style>
+:root { 
+  --bg:#fff8ff; 
+  --card:#ffffff; 
+  --accent:#7b2cbf; 
+  --accent-2:#9b5de5; 
+  --text:#3b224c; 
+}
+
+body {
+  margin:0;
+  padding:0;
+  font-family: "Segoe UI", sans-serif;
+  background: url("s.jpg") no-repeat center/cover;
+  background-size: cover;
+  height:100vh;
+  overflow: hidden;
+  transition: background 0.5s, color 0.5s;
+  position: relative;
+}
+
+body.dark-mode {
+  background: #1a1a2e;
+  color: #f5f5f5;
+}
+
+/* Center wrapper */
+.wrapper {
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Envelope */
+.envelope {
+  width: 300px;
+  height: 200px;
+  background: var(--accent);
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.4s;
+  box-shadow:0 6px 20px rgba(0,0,0,0.2);
+  perspective: 1000px;
+  z-index: 5; 
+}
+
+.envelope::before {
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:50%;
+  background: var(--accent-2);
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+  transform-origin: top center;
+  transition: transform 0.8s ease;
+}
+
+.envelope:hover::before {
+  transform: rotateX(-180deg);
+}
+
+.envelope:hover {
+  transform: scale(1.05);
+}
+
+/* Letter hidden initially */
+.letter {
+  opacity: 0;
+  pointer-events: none;
+  display: flex; 
+  flex-direction: row;
+  width: 90vw;
+  height: 70vh;
+  max-width: 700px;
+  max-height: 80vh;
+  background: var(--card);
+  border-radius: 12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  overflow: hidden;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 10;
+}
+
+/* Letter visible */
+.letter.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Image */
+.letter img {
+  width: 45%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px 0 0 12px;
+}
+
+/* Text */
+.letter .text {
+  padding: 15px 20px;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.letter h2 {
+  margin-top:0;
+  color: var(--accent);
+  font-size: 19px;
+}
+
+.letter p {
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  overflow-wrap: break-word;
+}
+
+.letter .signature {
+  color: var(--accent-2);
+  font-weight: bold;
+  text-align: right;
+  margin-top: 5px;
+}
+
+/* Close button */
+#closeBtn {
+  margin-top: 10px;
+  align-self: flex-end;
+  padding: 6px 10px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: white;
+  font-size: 1em;
+  z-index: 9999;
+  user-select: none;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) translateX(0); opacity:1; }
+  100% { transform: translateY(100vh) translateX(50px); opacity:0; }
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle, #fff 0%, #f39 50%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkle 1s linear infinite;
+}
+
+@keyframes sparkle {
+  0%,100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+#darkModeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--accent-2);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 20;
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+  .letter {
+    flex-direction: column;
+    height: 75vh;
+  }
+  .letter img {
+    width: 100%;
+    height: 40%;
+    border-radius: 12px 12px 0 0;
+  }
+  .letter .text {
+    width: 100%;
+    padding: 10px 12px;
+  }
+  .letter h2 {
+    font-size: 17px;
+  }
+  .letter p {
+    font-size: 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<button id="darkModeBtn">🌙 Dark Mode</button>
+
+<div class="wrapper">
+  <div class="envelope" onclick="openLetter()"></div>
+
+  <div class="letter" id="letter">
+    <img src="k.jpg" alt="Photo">
+    <div class="text">
+      <h2>Merry Krizmass 🎄💜</h2>
+
+      <p>
+        Hi Kriz!  
+        This season feels extra special because of you. I hope this small letter makes you smile. Wishing you a Christmas full of warmth, love, and happiness. 🎁✨
+      </p>
+
+      <p>
+        I just want to say… I was really, really happy when I met you, and even happier when you replied to me — even though you ghosted me before HAHA. I still didn’t give up, and look at us now. We made it all the way to Christmas.
+      </p>
+
+      <p>
+        And now, you finally said yes to letting me court you. Thank you, Krizz, for giving me a chance — I won’t waste it. I’ll be here for you through everything: the good times, the rough days, the hardships, and all the way to the victories we’ll reach together… until we reach our endgame.
+      </p>
+
+      <p>
+        Merry Christmas, Krizz.  
+        Always take care.  
+        I’m always here. 💜
+      </p>
+
+      <p class="signature">Your Admirer,<br>Janiel</p>
+
+      <button id="closeBtn">📩 Fold Letter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const letter = document.getElementById("letter");
+const envelope = document.querySelector(".envelope");
+const closeBtn = document.getElementById("closeBtn");
+
+function openLetter(){
+  letter.classList.add("show");
+  envelope.style.display = "none";
+}
+
+closeBtn.addEventListener("click", () => {
+  letter.classList.remove("show");
+  envelope.style.display = "block";
+});
+
+// Dark mode toggle
+document.getElementById('darkModeBtn').addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+});
+
+// Snowflakes
+for(let i=0;i<50;i++){
+  let snow = document.createElement('div');
+  snow.className = 'snowflake';
+  snow.textContent = '❄';
+  snow.style.left = Math.random() * window.innerWidth + 'px';
+  snow.style.animationDuration = (3 + Math.random() * 5) + 's';
+  snow.style.fontSize = (10 + Math.random() * 20) + 'px';
+  document.body.appendChild(snow);
+}
+
+// Sparkles
+for(let i=0;i<30;i++){
+  let sparkle = document.createElement('div');
+  sparkle.className = 'sparkle';
+  sparkle.style.top = Math.random() * window.innerHeight + 'px';
+  sparkle.style.left = Math.random() * window.innerWidth + 'px';
+  sparkle.style.animationDelay = Math.random() + 's';
+  document.body.appendChild(sparkle);
+}
+</script>
+
+</body>
+</html>
